@@ -1,0 +1,28 @@
+_target_: mfm.models.DiTMFM
+learn_loss_weighting: false
+
+# === tokenization ===
+input_size: 32
+patch_size: 2
+in_channels: 4
+encoder_depth: 20
+
+# === backbone size DiT_L_2 ===
+hidden_size: 1152          # D
+depth: 28                 # number of transformer blocks
+num_heads: 16              # heads per block
+
+# === conditioning ===
+label_dim: 1000
+
+# === attention impl ===
+# use_fused_attn: true      # uses PyTorch SDPA (FlashAttention path when available)
+  
+use_joint_attention: false   # use joint spatial+channel attention
+preserve_t_cond_0: false
+# === model guidance === - don't include 1.0 here!
+model_guidance_class_ws: [2.5]
+model_guidance_x_cond_ws: []
+attn_func: "fa3"
+is_zero_data: true # for reusing pretrained weights
+init: dmf

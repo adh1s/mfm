@@ -1,0 +1,37 @@
+defaults:
+  - _self_
+  - model: sit_xl_2
+  - dataset: imagenet_1k 
+  - SI: linear
+
+use_parametrization: false
+
+checkpoint_path: "${hydra:runtime.cwd}/ckpts/mfm-xl2.pt"
+save_dir: "${hydra:runtime.cwd}/reward_experiments"
+
+
+hydra:
+  run: 
+    dir: ${hydra:runtime.cwd}/outputs/${now:%Y-%m-%d_%H-%M-%S}
+
+seed: 42
+per_proc_batch_size: 32
+num_samples: 8
+
+# sampling args
+sampler: ode 
+drift_estimator: iwae # dps, iwae (mfm-g), sne (mfm-gf)
+mc_samples: 4 # mc samples for mfm-g / mfm-gf
+n_steps: 250
+guidance_scale: 1.0
+
+renorm_gradient: true
+renorm_scale: 1.0
+
+image_reward:
+  prompt:  "A high-resolution, high-quality photograph of a tabby cat."
+  _lambda: 2.0
+  model_name: HPSv2
+
+cfg_scale: 2.5
+class_label: 281

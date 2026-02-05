@@ -1,0 +1,86 @@
+defaults:
+  - _self_
+  - model: sit_xl_2
+  - dataset: imagenet_1k
+  - SI: linear
+
+resume_from_checkpoint: null
+use_parametrization: false
+
+init_from_dmf: true
+dmf_path: ${hydra:runtime.cwd}/ckpts/dmf_xl_2_256.pt
+data_dir: ${hydra:runtime.cwd}/data
+
+wandb:
+  project: mfm-training
+  name: default
+  
+hydra:
+  run: 
+    dir: ${hydra:runtime.cwd}/outputs/${now:%Y-%m-%d_%H-%M-%S}
+
+optimizer: "RAdam"
+seed: 42
+
+loss:
+  distillation_type: esd_teacher 
+  fm_loss_type: adaptive
+  distill_fm_loss_type: adaptive
+  distillation_loss_type: adaptive
+  distill_teacher_stop_grad: true
+  fm_adaptive_loss_p: 0.5
+  fm_adaptive_loss_c: 0.01
+  distill_adaptive_loss_p: 1.0
+  distill_adaptive_loss_c: 0.01
+  data_fm: false 
+  distill_fm: true
+  model_guidance: true
+  model_guidance_base_prob: 0.0
+
+weighting_model:
+  _target_: mfm.models.base_model.LossWeightingNetwork
+  channels: 128
+  clamp_min: -10.0
+  clamp_max: 10.0
+
+lr:
+  val: 0.0001
+  warmup_steps: 2000 
+  min_lr: 0.0001
+
+trainer:
+  num_train_steps: 100000 
+  num_warmup_steps: 0 
+  anneal_end_step: 0
+  t_cond_warmup_steps: 0
+  t_cond_0_rate: 0.1
+  t_cond_power: 2.0
+  t_cond_anneal_end_step: 0
+  batch_size: 32 
+  ema:
+    decay: 0.9999
+  devices: "auto"
+  num_nodes: 1
+  log_every_n_steps: 25
+  accumulate_grad_batches: 1
+  precision: "bf16-mixed"
+  gradient_clip_val: 1.5
+  checkpoint_every_n_steps: 25000
+  class_dropout_prob: 0.2 
+  num_workers: 1
+
+sampling:
+  every_n_steps: 10000
+  max_batch_size: 32
+  vae_batch_size: 32
+  # unconditional sampler
+  n_unconditional_samples: 128 
+  n_kernel_steps: [1, 2, 4]
+  kernel_cfg_scales: [2.5]
+  cfg_scales: [2.5]
+  # posterior sampler
+  n_conditioning_samples: 32 # unique x_t
+  n_samples_per_image: 4 # total_posterior_samples = n_conditioning_samples * n_samples_per_image
+  consistency_sampler:
+    steps_to_test: [1, 4]
+    t_conds: [0.00, 0.20, 0.40]

@@ -1,0 +1,56 @@
+defaults:
+  - _self_
+  - model: sit_xl_2
+  - dataset: imagenet_1k 
+  - SI: linear
+
+resume_from_checkpoint: null
+checkpoint_path: "${hydra:runtime.cwd}/ckpts/mfm-xl2.pt"
+use_parametrization: false
+
+wandb:
+  project: mfm-finetuning
+  name: default
+  
+hydra:
+  run: 
+    dir: ${hydra:runtime.cwd}/outputs/${now:%Y-%m-%d_%H-%M-%S}
+
+data_dir: ${hydra:runtime.cwd}/data
+optimizer: "RAdam"
+seed: 42
+imagereward_function: HPSv2 # ImageReward, PickScore
+
+loss:
+  prompt_prefix: "A high-resolution, high-quality photograph of a "
+  _lambda: 50.0
+  sigma_t_sq: 200
+  sigma_t_sq_type: "constant" # constant, schedule
+
+filter_for_classes: false
+filter_class_indices: []
+
+lr:
+  val: 0.0001 
+  warmup_steps: 250 
+  min_lr: 0.00005
+
+trainer:
+  num_train_steps: 10000
+  batch_size: 18 
+  ema:
+    enabled: true
+    decay: 0.999
+    min_step: 100
+  devices: "auto"
+  num_nodes: 1
+  log_every_n_steps: 1
+  accumulate_grad_batches: 1
+  precision: "bf16-mixed"
+  gradient_clip_val: 1.5
+  checkpoint_every_n_steps: 5000
+  num_workers: 1
+
+sampling:
+  every_n_steps: 500
+  num_samples: 512

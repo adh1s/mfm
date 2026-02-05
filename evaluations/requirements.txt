@@ -1,0 +1,4 @@
+tensorflow[and-cuda] # tensorflow-gpu>=2.0
+scipy
+requests
+tqdm

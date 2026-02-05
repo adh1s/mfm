@@ -1,0 +1,19 @@
+[project]
+name = "mfm"
+version = "0.1.0"
+description = "Meta Flow Maps enable scalable reward alignment."
+requires-python = ">=3.9, <=3.13"
+dynamic = ["dependencies"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]

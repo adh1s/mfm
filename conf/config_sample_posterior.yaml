@@ -1,0 +1,25 @@
+defaults:
+  - _self_
+  - model: sit_xl_2
+  - dataset: imagenet_1k 
+  - SI: linear
+
+use_parametrization: false
+checkpoint_path: "${hydra:runtime.cwd}/mfm-v2/ckpts/mfm-xl2.pt"
+
+data_dir: ${hydra:runtime.cwd}/data
+
+seed: 42
+per_proc_batch_size: 32
+num_samples: 16
+
+posterior_t: 0.4
+posterior_sampler_steps: 1 
+posterior_n_samples: 16 # number of posterior samples per image
+
+cfg_scale: 2.5 
+filter_classes: []
+to_generate_classes: []
+
+trainer:
+  num_workers: 1

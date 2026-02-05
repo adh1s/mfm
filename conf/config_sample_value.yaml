@@ -1,0 +1,38 @@
+defaults:
+  - _self_
+  - model: sit_xl_2
+  - dataset: imagenet_1k 
+  - SI: linear
+
+use_parametrization: false
+checkpoint_path: "${hydra:runtime.cwd}/ckpts/mfm-xl2.pt"
+dmf_checkpoint_path: "${hydra:runtime.cwd}/ckpts/dmf_xl_2_256.pt"
+ground_truth_path: "${hydra:runtime.cwd}/"
+
+data_dir: ${hydra:runtime.cwd}/data
+
+seed: 42
+
+per_proc_batch_size: 32
+num_samples: 128
+init_from_dmf: true
+save_ground_truth: true # if true, a expensive, high-fidelity estimator (SDE rollout) is computed and cached
+ddpm:
+  n_steps: 200
+  n_samples: 200
+
+n_samples_mc: 200
+n_steps_mc: 1
+n_method_mc: consistency # consistency, glass flows
+
+# noise
+posterior_t: 0.1
+
+# generation
+cfg_scale: 2.5 
+cls: 281 
+reward_prompt: "A high-resolution, high-quality photograph of a tabby cat."
+
+trainer:
+  num_workers: 1
+  batch_size: 64
