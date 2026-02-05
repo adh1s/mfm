@@ -60,7 +60,8 @@ def main(cfg: DictConfig):
     print(f"Unexpected keys: {len(unexpected)}")
 
     model = copy.deepcopy(mfm)
-
+    
+    # extract the unconditional dynamics to fine-tune
     def custom_forward(self, x, t, y, **kwargs):
         return self.v(
             t, t, x, torch.zeros_like(t), torch.zeros_like(x), class_labels=y, **kwargs

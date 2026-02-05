@@ -225,3 +225,4 @@ evaluations/VIRTUAL_imagenet256_labeled.npz
 venv/
 *.pb
 setup_env.sh
+reward_experiments/

@@ -2,9 +2,10 @@
 
 # Meta Flow Maps
 
+🔗 [arXiv: 2601.14430](https://arxiv.org/abs/2601.14430)
+
 </div>
 
-**Abstract:** Controlling generative models is computationally expensive. This is because optimal alignment with a reward function--whether via inference-time steering or fine-tuning--requires estimating the value function. This task demands access to the conditional posterior p1|t(x1|xt), the distribution of clean data x1 consistent with an intermediate state xt, a requirement that typically compels methods to resort to costly trajectory simulations. To address this bottleneck, we introduce Meta Flow Maps (MFMs), a framework extending consistency models and flow maps into the stochastic regime. MFMs are trained to perform stochastic one-step posterior sampling, generating arbitrarily many i.i.d. draws of clean data x1 from any intermediate state. Crucially, these samples provide a differentiable reparametrization that unlocks efficient value function estimation. We leverage this capability to solve bottlenecks in both paradigms: enabling inference-time steering without inner rollouts, and facilitating unbiased, off-policy fine-tuning to general rewards. Empirically, our single-particle steered-MFM sampler outperforms a Best-of-1000 baseline on ImageNet across multiple rewards at a fraction of the compute.
 
 <div align="center">
   <img src="assets/images/MFMdiagram.png" alt="MFM Diagram" width="600"/>
