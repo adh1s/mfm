@@ -8,7 +8,7 @@
 
 
 <div align="center">
-  <img src="assets/images/MFMdiagram.png" alt="MFM Diagram" width="600"/>
+  <img src="assets/images/MFMdiagram.png" alt="MFM Diagram" width="800"/>
 </div>
 
 ### 1. Download Pretrained Models
