@@ -2,7 +2,7 @@
 
 # Meta Flow Maps
 
-🔗 [arXiv: 2601.14430](https://arxiv.org/abs/2601.14430)
+📄 Paper: [arXiv: 2601.14430](https://arxiv.org/abs/2601.14430) · 🌐 Website: [meta-flow-maps.github.io](https://meta-flow-maps.github.io)
 
 </div>
 
