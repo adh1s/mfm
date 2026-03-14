@@ -107,14 +107,11 @@ torchrun --nnodes=1 --nproc_per_node=1 scripts/sample_steered.py \
 If you use this code or models in your research, please considering citing:
 
 ```bibtex
-@misc{potaptchik2026metaflowmapsenable,
-      title={Meta Flow Maps enable scalable reward alignment}, 
-      author={Peter Potaptchik and Adhi Saravanan and Abbas Mammadov and Alvaro Prat and Michael S. Albergo and Yee Whye Teh},
-      year={2026},
-      eprint={2601.14430},
-      archivePrefix={arXiv},
-      primaryClass={stat.ML},
-      url={https://arxiv.org/abs/2601.14430}, 
+@article{potaptchik2026meta,
+  title={Meta Flow Maps enable scalable reward alignment},
+  author={Potaptchik, Peter and Saravanan, Adhi and Mammadov, Abbas and Prat, Alvaro and Albergo, Michael S and Teh, Yee Whye},
+  journal={arXiv preprint arXiv:2601.14430},
+  year={2026}
 }
 ```
 
