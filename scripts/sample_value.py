@@ -19,7 +19,7 @@ from torch.utils.data import DataLoader, distributed
 from mfm.data import get_data_module
 from mfm.models.model_wrapper import SIModelWrapper
 from mfm.utils.evaluation import posterior_sampling_fn
-from mfm.utils.image_reward_utils import rm_load
+from mfm.utils.image_reward_utils import get_image_reward_model
 from mfm.utils.steering import get_imagenet_vae_fn
 
 
@@ -137,14 +137,11 @@ def main(cfg: DictConfig):
     _, decode_fn = get_imagenet_vae_fn(device)
 
     # LOAD IN REWARD MODEL
-    reward_model = rm_load("ImageReward-v1.0", device=device)
+    reward_model = get_image_reward_model(device, cfg.reward_model)
 
     def reward_function(images, prompt=cfg.reward_prompt):
-        imgs = [img for img in images]
-        prompts = [prompt] * len(images)
-        rewards = reward_model.score_from_prompt_batched(prompts=prompts, images=imgs)
-        rewards = torch.tensor(rewards, device=images.device)
-        return rewards
+        prompts = [prompt] * images.shape[0]
+        return reward_model(prompts, images).to(images.device)
 
     samples_needed_this_gpu = math.ceil(cfg.num_samples / dist.get_world_size())
 

@@ -31,6 +31,7 @@ posterior_t: 0.1
 # generation
 cfg_scale: 2.5 
 cls: 281 
+reward_model: HPSv2
 reward_prompt: "A high-resolution, high-quality photograph of a tabby cat."
 
 trainer:

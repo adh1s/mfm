@@ -1,6 +1,17 @@
 <div align="center">
 
-# Meta Flow Maps
+# Meta Flow Maps (ICML 2026 🇰🇷)
+
+<p>
+  Peter Potaptchik<sup>*</sup> ·
+  Adhithya Saravanan<sup>*</sup> ·
+  Abbas Mammadov ·
+  Alvaro Prat ·
+  Michael Albergo<sup>†</sup> ·
+  Yee Whye Teh<sup>†</sup>
+</p>
+
+<p><sup>*</sup>Equal Contribution · <sup>†</sup>Senior Authors</p>
 
 📄 Paper: [arXiv: 2601.14430](https://arxiv.org/abs/2601.14430) · 🌐 Website: [meta-flow-maps.github.io](https://meta-flow-maps.github.io)
 
@@ -37,21 +48,28 @@ Set `dmf_path` in `conf/config_train.yaml` or override during training for initi
 ### 2. Environment Setup
 
 - **Python**: 3.12
-- **GPU Architecture**:
-  - Hopper GPUs (H100, H200, H800): CUDA 12.9 + Flash Attention v3
-  - Ampere GPUs (A100): Flash Attention v2
-- **Flash Attention v3**: Install from source via the [official repository](https://github.com/Dao-AILab/flash-attention)
+
+| GPU / Hardware | Attention Backend | Notes |
+| --- | --- | --- |
+| Any GPU | Torch SDPA | Default, slower |
+| A100 / Ampere | Flash Attention v2 | - |
+| H100, H200, H800 / Hopper | Flash Attention v3 | Tested with CUDA 12.9 |
+
+Set `attn_func` in `conf/model/sit_xl_2.yaml` to choose the attention method.
+
+For **Flash Attention v3**, install from source via the [official repository](https://github.com/Dao-AILab/flash-attention).
 
 ```bash
 conda create -n mfm python=3.12 -y
 conda activate mfm
+pip install torch==2.12.0 torchvision==0.27.0 --index-url https://download.pytorch.org/whl/cu126
 pip install -e .
 ```
 
 ---
 
 ### 3. Dataset
-
+x
 Currently supporting [ImageNet](https://www.kaggle.com/competitions/imagenet-object-localization-challenge/data) experiments. By default, YAML files search for datasets in `mfm/data`. Update the location in the corresponding `.yaml` files or override using Hydra syntax.
 
 **Example**:
@@ -96,7 +114,7 @@ python evaluations/evaluator.py evaluations/VIRTUAL_imagenet256_labeled.npz samp
 torchrun --nnodes=1 --nproc_per_node=1 scripts/sample_steered.py \
   ++drift_estimator=iwae \
   ++mc_samples=16 \
-  ++image_reward.prompt="A high-resolution, high-quality photograph of a tabby cat." \
+  '++image_reward.prompt="A high-resolution, high-quality photograph of a tabby cat."' \
   ++class_label=281
 ```
 
@@ -125,4 +143,4 @@ If you encounter any difficulties in reproducing our findings, please do let us 
 
 ### Acknowledgement
 
-This code borrows model definitions and weights from [DMF](https://github.com/kyungmnlee/dmf). The FID code in `/evaluations` is borrowed from [guided-diffusion](https://github.com/openai/guided-diffusion).
+This code borrows model definitions and weights from [DMF](https://github.com/kyungmnlee/dmf). The FID code in `evaluations/` is borrowed from [guided-diffusion](https://github.com/openai/guided-diffusion).

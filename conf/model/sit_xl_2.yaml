@@ -23,6 +23,6 @@ preserve_t_cond_0: false
 # === model guidance === - don't include 1.0 here!
 model_guidance_class_ws: [2.5]
 model_guidance_x_cond_ws: []
-attn_func: "fa3"
+attn_func: "base" # base, fa3, fa2
 is_zero_data: true # for reusing pretrained weights
 init: dmf
